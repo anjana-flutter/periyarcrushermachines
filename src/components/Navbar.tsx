@@ -1,12 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+    const pathname = usePathname();
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 50);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     const navLinks = [
         { name: "Home", href: "/" },
@@ -17,13 +28,16 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-white/10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20">
+        <nav
+            className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? "bg-background/90 backdrop-blur-md border-b border-white/5 py-4" : "bg-transparent py-6"
+                }`}
+        >
+            <div className="container-custom">
+                <div className="flex items-center justify-between">
                     {/* Logo */}
                     <div className="flex-shrink-0">
-                        <Link href="/" className="text-2xl font-bold uppercase tracking-wider text-white">
-                            Periyar <span className="text-primary">Crusher</span> Machines
+                        <Link href="/" className="text-2xl font-bold uppercase tracking-wider text-white font-heading">
+                            Periyar <span className="text-primary">Crusher</span>
                         </Link>
                     </div>
 
@@ -34,7 +48,10 @@ const Navbar = () => {
                                 <Link
                                     key={link.name}
                                     href={link.href}
-                                    className="text-gray-300 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
+                                    className={`px-3 py-2 rounded-md text-sm font-bold uppercase tracking-wide transition-colors duration-300 ${pathname === link.href
+                                            ? "text-primary"
+                                            : "text-text-muted hover:text-white"
+                                        }`}
                                 >
                                     {link.name}
                                 </Link>
@@ -46,7 +63,8 @@ const Navbar = () => {
                     <div className="hidden md:block">
                         <Link
                             href="/contact-us"
-                            className="bg-primary text-black hover:bg-yellow-500 px-6 py-2 rounded-md font-bold transition-colors duration-300"
+                            className="bg-primary text-black hover:bg-white hover:text-black px-6 py-3 font-bold uppercase tracking-wider transition-colors duration-300 clip-path-slant"
+                            style={{ clipPath: "polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%)" }}
                         >
                             Get a Quote
                         </Link>
@@ -56,10 +74,10 @@ const Navbar = () => {
                     <div className="-mr-2 flex md:hidden">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
+                            className="inline-flex items-center justify-center p-2 rounded-md text-text-muted hover:text-white focus:outline-none"
                         >
                             <span className="sr-only">Open main menu</span>
-                            {isOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
+                            {isOpen ? <X className="block h-8 w-8" /> : <Menu className="block h-8 w-8" />}
                         </button>
                     </div>
                 </div>
@@ -72,15 +90,18 @@ const Navbar = () => {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-surface border-b border-white/10"
+                        className="md:hidden bg-surface border-b border-white/10 overflow-hidden"
                     >
-                        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                        <div className="px-4 pt-4 pb-6 space-y-2">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.name}
                                     href={link.href}
                                     onClick={() => setIsOpen(false)}
-                                    className="text-gray-300 hover:text-primary block px-3 py-2 rounded-md text-base font-medium"
+                                    className={`block px-3 py-4 rounded-md text-lg font-bold uppercase tracking-wide border-b border-white/5 ${pathname === link.href
+                                            ? "text-primary"
+                                            : "text-text-muted hover:text-white"
+                                        }`}
                                 >
                                     {link.name}
                                 </Link>
@@ -88,7 +109,7 @@ const Navbar = () => {
                             <Link
                                 href="/contact-us"
                                 onClick={() => setIsOpen(false)}
-                                className="w-full text-center mt-4 bg-primary text-black hover:bg-yellow-500 block px-3 py-2 rounded-md text-base font-bold"
+                                className="w-full text-center mt-6 bg-primary text-black hover:bg-white block px-3 py-4 font-bold uppercase tracking-wider"
                             >
                                 Get a Quote
                             </Link>

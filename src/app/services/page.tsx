@@ -1,118 +1,112 @@
 "use client";
 
+import { useRef, useEffect } from "react";
+import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Wrench, Truck, PhoneCall, Settings, BarChart, Users } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { motion } from "framer-motion";
-import { Wrench, Cog, Microscope, Hammer, Factory, FileBox } from "lucide-react";
 
-export default function ServicesPage() {
-    const services = [
-        {
-            icon: Factory,
-            name: "Fabrication",
-            description: "Custom fabrication of conveyors, rollers, drums, vibrating screens, and batch plants tailored to your specifications."
-        },
-        {
-            icon: Hammer,
-            name: "High Chromium Iron Casting",
-            description: "Premium quality high chromium iron castings with superior strength and durability for demanding industrial applications."
-        },
-        {
-            icon: Microscope,
-            name: "Spectrum Analysis",
-            description: "Advanced spectrum analysis services to ensure material quality and composition meet exact specifications."
-        },
-        {
-            icon: Wrench,
-            name: "Assembling and Repair of Heavy Machinery",
-            description: "Expert assembly and repair services for heavy machinery, ensuring optimal performance and extended equipment life."
-        },
-        {
-            icon: Cog,
-            name: "Machining and Fabrication Unit",
-            description: "State-of-the-art machining and fabrication facilities with precision equipment for complex manufacturing needs."
-        },
-        {
-            icon: FileBox,
-            name: "Pattern Shop",
-            description: "Professional pattern making services for casting production, ensuring accuracy and consistency in every piece."
-        }
-    ];
+gsap.registerPlugin(ScrollTrigger);
+
+const services = [
+    {
+        title: "Installation & Commissioning",
+        description: "Expert on-site installation and setup to ensure your plant runs at peak performance from day one.",
+        icon: Wrench,
+    },
+    {
+        title: "Maintenance Contracts",
+        description: "Scheduled maintenance programs to prevent downtime and extend the life of your equipment.",
+        icon: Settings,
+    },
+    {
+        title: "Spare Parts Supply",
+        description: "Genuine high-quality spares delivered rapidly to keep your operations moving.",
+        icon: Truck,
+    },
+    {
+        title: "24/7 Technical Support",
+        description: "Round-the-clock access to our engineering team for troubleshooting and advice.",
+        icon: PhoneCall,
+    },
+    {
+        title: "Plant Optimization",
+        description: "Comprehensive audits and upgrades to increase output and efficiency.",
+        icon: BarChart,
+    },
+    {
+        title: "Operator Training",
+        description: "Hands-on training for your staff to ensure safe and efficient machine operation.",
+        icon: Users,
+    },
+];
+
+export default function Services() {
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.from(".service-card", {
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top 80%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power3.out",
+            });
+        }, containerRef);
+
+        return () => ctx.revert();
+    }, []);
 
     return (
-        <main className="min-h-screen bg-background">
+        <main className="min-h-screen bg-background text-text selection:bg-primary selection:text-black">
             <Navbar />
 
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-surface">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center"
-                    >
-                        <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-                            Our <span className="text-primary">Services</span>
-                        </h1>
-                        <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-                        <p className="text-gray-300 text-xl max-w-3xl mx-auto">
-                            Comprehensive foundry, fabrication, and machining solutions for industrial performance
-                        </p>
-                    </motion.div>
+            <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop"
+                        alt="Periyar Services"
+                        fill
+                        className="object-cover opacity-50"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                </div>
+                <div className="container-custom relative z-10 text-center">
+                    <h1 className="text-5xl md:text-8xl font-bold mb-6">
+                        EXPERT <span className="text-primary">SERVICES</span>
+                    </h1>
+                    <p className="text-xl md:text-2xl text-text-muted max-w-3xl mx-auto">
+                        Comprehensive support to keep your crushing plant running at maximum efficiency.
+                    </p>
                 </div>
             </section>
 
             {/* Services Grid */}
-            <section className="py-20 bg-background">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <section ref={containerRef} className="py-24">
+                <div className="container-custom">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {services.map((service, index) => (
-                            <motion.div
-                                key={service.name}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
-                                className="bg-surface border border-white/10 rounded-lg p-8 hover:border-primary/50 transition-all duration-300 group"
+                            <div
+                                key={index}
+                                className="service-card group p-8 bg-surface border border-white/5 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2"
                             >
-                                <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                                    <service.icon className="w-8 h-8 text-primary" />
-                                </div>
-                                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary transition-colors">
-                                    {service.name}
-                                </h3>
-                                <p className="text-gray-300 leading-relaxed">
+                                <service.icon className="w-12 h-12 text-primary mb-6 group-hover:scale-110 transition-transform duration-300" />
+                                <h3 className="text-2xl font-bold mb-4 uppercase">{service.title}</h3>
+                                <p className="text-text-muted group-hover:text-white transition-colors duration-300">
                                     {service.description}
                                 </p>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-20 bg-surface">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <h2 className="text-4xl font-bold text-white mb-6">
-                            HIGH QUALITY CAST IRON FOUNDRIES
-                        </h2>
-                        <p className="text-xl text-gray-300 mb-8">
-                            Certified by Global Standards
-                        </p>
-                        <a
-                            href="/products"
-                            className="inline-block bg-primary text-black hover:bg-yellow-500 px-8 py-4 rounded-lg font-bold transition-colors duration-300"
-                        >
-                            View Products
-                        </a>
-                    </motion.div>
                 </div>
             </section>
 

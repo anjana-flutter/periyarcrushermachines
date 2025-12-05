@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
+import { Manrope, Oswald } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "@/components/providers/SmoothScroll";
+
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
+const oswald = Oswald({ subsets: ["latin"], variable: "--font-oswald" });
 
 export const metadata: Metadata = {
   title: "Periyar Crusher Machines — Premium Crushers & Crushing Equipment",
@@ -27,8 +32,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased bg-background text-text min-h-screen" suppressHydrationWarning>
-        {children}
+      <body className={`${manrope.variable} ${oswald.variable} antialiased bg-background text-text min-h-screen font-sans`} suppressHydrationWarning>
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

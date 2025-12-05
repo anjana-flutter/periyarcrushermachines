@@ -1,144 +1,142 @@
 "use client";
 
+import { useRef, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { motion } from "framer-motion";
-import { CheckCircle } from "lucide-react";
 
-export default function ProductsPage() {
-    const products = [
-        {
-            name: "Manganese Jaw Plate",
-            description: "High-quality manganese jaw plates designed for maximum wear life and crushing efficiency.",
-            features: ["High manganese steel", "Superior durability", "Custom designs available"],
-            image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=400&fit=crop"
-        },
-        {
-            name: "Iron Hammer Blow Bar",
-            description: "Durable iron hammer blow bars for impact crushers, ensuring consistent performance.",
-            features: ["Impact resistant", "Long service life", "Precision casting"],
-            image: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=600&h=400&fit=crop"
-        },
-        {
-            name: "Vibrating Screen",
-            description: "Efficient vibrating screens for accurate material separation and sizing.",
-            features: ["High screening efficiency", "Robust construction", "Low maintenance"],
-            image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop"
-        },
-        {
-            name: "Cone / Mantle",
-            description: "Premium cone and mantle liners for cone crushers, optimized for various rock types.",
-            features: ["Wear resistant", "Accurate fit", "Enhanced crushing action"],
-            image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&h=400&fit=crop"
-        },
-        {
-            name: "High Chromium Iron Blow Bar",
-            description: "High chromium blow bars offering exceptional hardness and wear resistance.",
-            features: ["High chrome content", "Extreme hardness", "Ideal for abrasive materials"],
-            image: "https://3.imimg.com/data3/WX/KA/MY-1068922/impact-crusher-500x500.jpg"
-        },
-        {
-            name: "Manganese Side Plate",
-            description: "Protective manganese side plates to shield crusher body from wear and tear.",
-            features: ["Tough manganese steel", "Easy installation", "Body protection"],
-            image: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=400&fit=crop"
-        },
-        {
-            name: "VSI Parts",
-            description: "Comprehensive range of wear parts for Vertical Shaft Impact crushers.",
-            features: ["Rotor tips", "Distributor plates", "Wear plates"],
-            image: "https://www.mekaglobal.com/content/images/uploads/originals/vertical-shaft-impact-crusher-l-model,4667.png"
-        },
-        {
-            name: "Excavator Teeth",
-            description: "Heavy-duty excavator teeth for superior digging penetration and longevity.",
-            features: ["High strength alloy", "Self-sharpening design", "Various sizes"],
-            image: "https://periyarcrushermachines.com/wp-content/uploads/2025/07/freepik__background__54845.png"
-        },
-        {
-            name: "Roller",
-            description: "Precision-engineered rollers for conveyors and other heavy machinery.",
-            features: ["Smooth operation", "Sealed bearings", "Heavy load capacity"],
-            image: "https://periyarcrushermachines.com/wp-content/uploads/2025/08/image-55.png"
-        },
-        {
-            name: "Drum",
-            description: "Robust drums for conveyor systems and material handling equipment.",
-            features: ["Balanced design", "Durable lagging", "Custom sizes"],
-            image: "https://periyarcrushermachines.com/wp-content/uploads/2025/08/image-56.png"
-        },
-        {
-            name: "Classifier",
-            description: "Efficient classifiers for sand washing and material separation.",
-            features: ["High capacity", "Clean output", "Water efficient"],
-            image: "https://periyarcrushermachines.com/wp-content/uploads/2025/08/image-61.png"
-        }
-    ];
+gsap.registerPlugin(ScrollTrigger);
+
+const products = [
+    {
+        id: 1,
+        name: "Jaw Crusher Series",
+        category: "Primary Crushing",
+        image: "https://images.unsplash.com/photo-1578326457399-3b34dbbf23b8?q=80&w=2070&auto=format&fit=crop",
+        description: "High-capacity primary crushers designed for the toughest materials.",
+    },
+    {
+        id: 2,
+        name: "Cone Crusher Pro",
+        category: "Secondary Crushing",
+        image: "https://images.unsplash.com/photo-1599930113854-d6d7fd521f10?q=80&w=2080&auto=format&fit=crop",
+        description: "Precision engineered for excellent particle shape and high output.",
+    },
+    {
+        id: 3,
+        name: "VSI Impact Crusher",
+        category: "Tertiary Crushing",
+        image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2068&auto=format&fit=crop",
+        description: "Ideal for producing high-quality sand and aggregates.",
+    },
+    {
+        id: 4,
+        name: "Mobile Crusher X",
+        category: "Mobile Solutions",
+        image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2070&auto=format&fit=crop",
+        description: "Track-mounted crushing plants for maximum mobility and flexibility.",
+    },
+    {
+        id: 5,
+        name: "Vibrating Screens",
+        category: "Screening",
+        image: "https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?q=80&w=2070&auto=format&fit=crop",
+        description: "Efficient screening solutions for accurate material separation.",
+    },
+    {
+        id: 6,
+        name: "Washing Systems",
+        category: "Washing",
+        image: "https://images.unsplash.com/photo-1535136029863-4a3813f1a127?q=80&w=2070&auto=format&fit=crop",
+        description: "Advanced washing equipment for clean, high-quality end products.",
+    },
+];
+
+export default function Products() {
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.from(".product-card", {
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: "top 80%",
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power3.out",
+            });
+        }, containerRef);
+
+        return () => ctx.revert();
+    }, []);
 
     return (
-        <main className="min-h-screen bg-background">
+        <main className="min-h-screen bg-background text-text selection:bg-primary selection:text-black">
             <Navbar />
 
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 bg-surface">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        className="text-center"
-                    >
-                        <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-                            Our <span className="text-primary">Products</span>
-                        </h1>
-                        <div className="w-24 h-1 bg-primary mx-auto mb-6"></div>
-                        <p className="text-gray-300 text-xl max-w-3xl mx-auto">
-                            Premium quality crusher wear parts and heavy machinery components
-                        </p>
-                    </motion.div>
+            <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 z-0">
+                    <Image
+                        src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2068&auto=format&fit=crop"
+                        alt="Periyar Products"
+                        fill
+                        className="object-cover opacity-50"
+                        priority
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                </div>
+                <div className="container-custom relative z-10 text-center">
+                    <h1 className="text-5xl md:text-8xl font-bold mb-6">
+                        OUR <span className="text-primary">PRODUCTS</span>
+                    </h1>
+                    <p className="text-xl md:text-2xl text-text-muted max-w-3xl mx-auto">
+                        Engineered for performance, durability, and maximum return on investment.
+                    </p>
                 </div>
             </section>
 
             {/* Products Grid */}
-            <section className="py-20 bg-background">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {products.map((product, index) => (
-                            <motion.div
-                                key={product.name}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
-                                className="bg-surface border border-white/10 rounded-lg overflow-hidden hover:border-primary/50 transition-all duration-300 group"
+            <section ref={containerRef} className="py-24">
+                <div className="container-custom">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {products.map((product) => (
+                            <div
+                                key={product.id}
+                                className="product-card group bg-surface border border-white/5 hover:border-primary/50 transition-all duration-300 overflow-hidden"
                             >
-                                <div className="relative h-48 overflow-hidden">
-                                    <img
+                                <div className="relative h-64 overflow-hidden">
+                                    <Image
                                         src={product.image}
                                         alt={product.name}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                        fill
+                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
-                                </div>
-
-                                <div className="p-6">
-                                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-primary transition-colors">
-                                        {product.name}
-                                    </h3>
-                                    <p className="text-gray-300 mb-4 leading-relaxed">
-                                        {product.description}
-                                    </p>
-
-                                    <div className="space-y-2">
-                                        {product.features.map((feature, idx) => (
-                                            <div key={idx} className="flex items-start gap-2">
-                                                <CheckCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                                                <span className="text-gray-400 text-sm">{feature}</span>
-                                            </div>
-                                        ))}
+                                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
+                                    <div className="absolute top-4 left-4 bg-primary text-black text-xs font-bold px-3 py-1 uppercase tracking-wider">
+                                        {product.category}
                                     </div>
                                 </div>
-                            </motion.div>
+
+                                <div className="p-8">
+                                    <h3 className="text-2xl font-bold mb-3 uppercase">{product.name}</h3>
+                                    <p className="text-text-muted mb-6 line-clamp-2">
+                                        {product.description}
+                                    </p>
+                                    <Link
+                                        href={`/contact-us?product=${encodeURIComponent(product.name)}`}
+                                        className="inline-block text-primary font-bold uppercase tracking-wider hover:text-white transition-colors"
+                                    >
+                                        Enquire Now →
+                                    </Link>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </div>

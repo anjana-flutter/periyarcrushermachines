@@ -1,123 +1,90 @@
+"use client";
+
 import Link from "next/link";
-import { Facebook, Twitter, Linkedin, Instagram, Mail, Phone, MapPin } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
-const Footer = () => {
-    const currentYear = new Date().getFullYear();
-
-    const quickLinks = [
-        { name: "Home", href: "/" },
-        { name: "Services", href: "/services" },
-        { name: "Products", href: "/products" },
-        { name: "About Us", href: "/about-us" },
-        { name: "Contact Us", href: "/contact-us" }
-    ];
-
-    const products = [
-        "Manganese Jaw Plate",
-        "Iron Hammer Blow Bar",
-        "Vibrating Screen",
-        "Cone / Mantle",
-        "High Chromium Iron Blow Bar",
-        "VSI Parts"
-    ];
-
-    const socialLinks = [
-        { icon: Facebook, href: "#", label: "Facebook" },
-        { icon: Twitter, href: "#", label: "Twitter" },
-        { icon: Linkedin, href: "#", label: "LinkedIn" },
-        { icon: Instagram, href: "#", label: "Instagram" }
-    ];
+export default function Footer() {
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
     return (
-        <footer className="bg-black text-white pt-16 pb-8 border-t border-white/10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-                    {/* Company Info */}
-                    <div>
-                        <h3 className="text-2xl font-bold mb-6">
-                            Periyar <span className="text-primary">Crusher</span>
-                        </h3>
-                        <p className="text-gray-400 mb-6 leading-relaxed">
-                            Leading foundry and fabrication company specializing in high-quality castings and heavy machinery components.
+        <footer className="bg-surface text-text relative">
+            {/* Massive CTA */}
+            <div className="bg-primary py-24 md:py-32 text-center">
+                <div className="container-custom">
+                    <h2 className="text-5xl md:text-8xl font-bold text-black mb-8">
+                        READY TO UPGRADE?
+                    </h2>
+                    <Link
+                        href="/contact-us"
+                        className="inline-block px-12 py-5 bg-black text-white font-bold text-xl uppercase tracking-wider hover:bg-white hover:text-black transition-colors"
+                    >
+                        Get a Quote
+                    </Link>
+                </div>
+            </div>
+
+            {/* Footer Links */}
+            <div className="container-custom py-16 md:py-24">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+                    {/* Brand */}
+                    <div className="col-span-1 md:col-span-1">
+                        <h3 className="text-3xl font-bold mb-6">PERIYAR</h3>
+                        <p className="text-text-muted mb-6">
+                            Engineering excellence for the toughest crushing challenges since 1998.
                         </p>
-                        <div className="flex gap-4">
-                            {socialLinks.map((social) => (
-                                <a
-                                    key={social.label}
-                                    href={social.href}
-                                    aria-label={social.label}
-                                    className="w-10 h-10 bg-surface border border-white/10 rounded-lg flex items-center justify-center text-gray-400 hover:text-primary hover:border-primary/50 transition-colors"
-                                >
-                                    <social.icon className="w-5 h-5" />
-                                </a>
-                            ))}
-                        </div>
                     </div>
 
                     {/* Quick Links */}
                     <div>
-                        <h4 className="text-lg font-bold mb-6">Quick Links</h4>
-                        <ul className="space-y-3">
-                            {quickLinks.map((link) => (
-                                <li key={link.name}>
-                                    <Link
-                                        href={link.href}
-                                        className="text-gray-400 hover:text-primary transition-colors"
-                                    >
-                                        {link.name}
-                                    </Link>
-                                </li>
-                            ))}
+                        <h4 className="text-xl font-bold mb-6 text-primary">Quick Links</h4>
+                        <ul className="space-y-4 text-text-muted">
+                            <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
+                            <li><Link href="/about-us" className="hover:text-white transition-colors">About Us</Link></li>
+                            <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
+                            <li><Link href="/contact-us" className="hover:text-white transition-colors">Contact</Link></li>
                         </ul>
                     </div>
 
                     {/* Products */}
                     <div>
-                        <h4 className="text-lg font-bold mb-6">Our Products</h4>
-                        <ul className="space-y-3">
-                            {products.map((product) => (
-                                <li key={product}>
-                                    <Link
-                                        href="/products"
-                                        className="text-gray-400 hover:text-primary transition-colors"
-                                    >
-                                        {product}
-                                    </Link>
-                                </li>
-                            ))}
+                        <h4 className="text-xl font-bold mb-6 text-primary">Our Products</h4>
+                        <ul className="space-y-4 text-text-muted">
+                            <li><Link href="/products" className="hover:text-white transition-colors">Jaw Crushers</Link></li>
+                            <li><Link href="/products" className="hover:text-white transition-colors">Cone Crushers</Link></li>
+                            <li><Link href="/products" className="hover:text-white transition-colors">VSI Crushers</Link></li>
+                            <li><Link href="/products" className="hover:text-white transition-colors">Mobile Plants</Link></li>
                         </ul>
                     </div>
 
-                    {/* Contact Info */}
+                    {/* Contact */}
                     <div>
-                        <h4 className="text-lg font-bold mb-6">Contact Us</h4>
-                        <ul className="space-y-4">
-                            <li className="flex items-start gap-3">
-                                <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
-                                <span className="text-gray-400">
-                                    Mayoorapuram, Kurichilakkode P.O., Perumbavoor, Ernakulam Dist, Kerala – 683544
-                                </span>
-                            </li>
-                            <li className="flex items-center gap-3">
-                                <Phone className="w-5 h-5 text-primary flex-shrink-0" />
-                                <span className="text-gray-400">+91 70349 31000</span>
-                            </li>
-                            <li className="flex items-center gap-3">
-                                <Mail className="w-5 h-5 text-primary flex-shrink-0" />
-                                <span className="text-gray-400">pcmpbvr@gmail.com</span>
-                            </li>
+                        <h4 className="text-xl font-bold mb-6 text-primary">Contact Us</h4>
+                        <ul className="space-y-4 text-text-muted">
+                            <li>+91 98765 43210</li>
+                            <li>info@periyarcrusher.com</li>
+                            <li>Coimbatore, Tamil Nadu, India</li>
                         </ul>
                     </div>
                 </div>
 
-                <div className="border-t border-white/10 pt-8 text-center">
-                    <p className="text-gray-500">
-                        © {currentYear} Periyar Crusher Machines Pvt Ltd. All rights reserved.
+                <div className="border-t border-white/10 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center">
+                    <p className="text-text-muted text-sm">
+                        © {new Date().getFullYear()} Periyar Crusher Machines. All rights reserved.
                     </p>
+
+                    <button
+                        onClick={scrollToTop}
+                        className="mt-4 md:mt-0 flex items-center gap-2 text-primary hover:text-white transition-colors group"
+                    >
+                        <span className="uppercase font-bold text-sm">Back to Top</span>
+                        <div className="p-2 border border-primary rounded-full group-hover:bg-primary group-hover:text-black transition-colors">
+                            <ArrowUp className="w-4 h-4" />
+                        </div>
+                    </button>
                 </div>
             </div>
         </footer>
     );
-};
-
-export default Footer;
+}
